@@ -1,335 +1,186 @@
 {
-    "location": "eastus",
-    "properties": {
-      "definition": 
-      {
-        "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-        "contentVersion": "1.0.0.0",
-        "parameters": {
-            "workflows_Az_Intro_Project_VisualStudio_App_name": {
-                "defaultValue": "Az-Intro-Project-VisualStudio-App",
-                "type": "String"
-            },
-            "connections_sql_externalid": {
-                "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/sql",
-                "type": "String"
-            },
-            "connections_azurequeues_2_externalid": {
-                "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/azurequeues-2",
-                "type": "String"
-            },
-            "connections_azurequeues_externalid": {
-                "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/azurequeues",
-                "type": "String"
-            },
-            "connections_azurequeues_4_externalid": {
-                "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/azurequeues-4",
-                "type": "String"
-            },
-            "connections_azurequeues_5_externalid": {
-                "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/azurequeues-5",
-                "type": "String"
-            },
-            "connections_azurequeues_1_externalid": {
-                "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/azurequeues-1",
-                "type": "String"
-            }
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_Az_Intro_Project_VisualStudio_App_name": {
+            "defaultValue": "Az-Intro-Project-VisualStudio-App",
+            "type": "String"
         },
-        "variables": {},
-        "resources": [
-            {
-                "type": "Microsoft.Logic/workflows",
-                "apiVersion": "2017-07-01",
-                "name": "[parameters('workflows_Az_Intro_Project_VisualStudio_App_name')]",
-                "location": "westeurope",
-                "tags": {
-                    "displayName": "LogicApp"
-                },
-                "properties": {
-                    "state": "Enabled",
-                    "definition": {
-                        "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
-                        "contentVersion": "1.0.0.0",
-                        "parameters": {
-                            "$connections": {
-                                "defaultValue": {},
-                                "type": "Object"
+        "connections_sql_externalid": {
+            "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/sql",
+            "type": "String"
+        },
+        "connections_azurequeues_2_externalid": {
+            "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/azurequeues-2",
+            "type": "String"
+        },
+        "connections_azurequeues_externalid": {
+            "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/azurequeues",
+            "type": "String"
+        },
+        "connections_azurequeues_4_externalid": {
+            "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/azurequeues-4",
+            "type": "String"
+        },
+        "connections_azurequeues_5_externalid": {
+            "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/azurequeues-5",
+            "type": "String"
+        },
+        "connections_azurequeues_1_externalid": {
+            "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AzureResourceGroup2/providers/Microsoft.Web/connections/azurequeues-1",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_Az_Intro_Project_VisualStudio_App_name')]",
+            "location": "westeurope",
+            "tags": {
+                "displayName": "LogicApp"
+            },
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "schema": {
+                                    "properties": {
+                                        "CPU": {
+                                            "type": "integer"
+                                        },
+                                        "Cluster": {
+                                            "type": "integer"
+                                        },
+                                        "CustomerNumber": {
+                                            "type": "integer"
+                                        },
+                                        "HDD": {
+                                            "type": "integer"
+                                        },
+                                        "Juristriction": {
+                                            "type": "integer"
+                                        },
+                                        "MAC": {
+                                            "type": "string"
+                                        },
+                                        "Operation": {
+                                            "type": "string"
+                                        },
+                                        "RAM": {
+                                            "type": "integer"
+                                        },
+                                        "UUID": {
+                                            "type": "string",
+                                            "maxLength": 50
+                                        },
+                                        "VPStype": {
+                                            "type": "integer"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "method": "POST"
                             }
-                        },
-                        "triggers": {
-                            "manual": {
-                                "type": "Request",
-                                "kind": "Http",
-                                "inputs": {
-                                    "schema": {
-                                        "properties": {
-                                            "CPU": {
-                                                "type": "integer"
-                                            },
-                                            "Cluster": {
-                                                "type": "integer"
-                                            },
-                                            "CustomerNumber": {
-                                                "type": "integer"
-                                            },
-                                            "HDD": {
-                                                "type": "integer"
-                                            },
-                                            "Juristriction": {
-                                                "type": "integer"
-                                            },
-                                            "MAC": {
-                                                "type": "string"
-                                            },
-                                            "Operation": {
-                                                "type": "string"
-                                            },
-                                            "RAM": {
-                                                "type": "integer"
-                                            },
-                                            "UUID": {
-                                                "type": "string",
-                                                "maxLength": 50
-                                            },
-                                            "VPStype": {
-                                                "type": "integer"
-                                            }
-                                        },
-                                        "type": "object"
-                                    },
-                                    "method": "POST"
-                                }
-                            }
-                        },
-                        "actions": {
-                            "Check_VPS_numbers": {
-                                "runAfter": {},
-                                "type": "ApiConnection",
-                                "inputs": {
-                                    "host": {
-                                        "connection": {
-                                            "name": "@parameters('$connections')['sql']['connectionId']"
-                                        }
-                                    },
-                                    "method": "post",
-                                    "body": {
-                                        "query": "SELECT \n    COALESCE(MAX(CustomerVPSNo), 0) AS MaxVPSNumber\nFROM \n    Assignments\nWHERE \n    CustomerNumber = @{triggerBody()?['CustomerNumber']};  "
-                                    },
-                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                }
-                            },
-                            "MaxVpsNo": {
-                                "runAfter": {
-                                    "Check_VPS_numbers": [
-                                        "Succeeded"
-                                    ]
-                                },
-                                "type": "Compose",
-                                "inputs": "@outputs('Check_VPS_numbers')?['body']?['ResultSets']?['Table1']?[0]?['MaxVPSNumber']\r\n"
-                            },
-                            "Define_Cluster": {
-                                "runAfter": {
-                                    "MaxVpsNo": [
-                                        "Succeeded"
-                                    ]
-                                },
-                                "type": "ApiConnection",
-                                "inputs": {
-                                    "host": {
-                                        "connection": {
-                                            "name": "@parameters('$connections')['sql']['connectionId']"
-                                        }
-                                    },
-                                    "method": "post",
-                                    "body": {
-                                        "query": "DECLARE @Cluster1Count INT;\nDECLARE @Cluster2Count INT;\nDECLARE @NextCluster INT;\n\n-- Count occurrences of Cluster = 1 and Cluster = 2\nSELECT \n    @Cluster1Count = COUNT(CASE WHEN Cluster = 1 THEN 1 END),\n    @Cluster2Count = COUNT(CASE WHEN Cluster = 2 THEN 1 END)\nFROM Assignments;\n\n-- Determine which cluster value to use for the next record\nIF @Cluster1Count > @Cluster2Count\n    SET @NextCluster = 2;  -- Use Cluster 2 because Cluster 1 appears more often\nELSE\n    SET @NextCluster = 1;  -- Use Cluster 1 (if Cluster 2 is more frequent, or if they are tied)\n\n-- Return the calculated Cluster value\nSELECT @NextCluster AS NextCluster;\n"
-                                    },
-                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                }
-                            },
-                            "NextCluster": {
-                                "runAfter": {
-                                    "Define_Cluster": [
-                                        "Succeeded"
-                                    ]
-                                },
-                                "type": "InitializeVariable",
-                                "inputs": {
-                                    "variables": [
-                                        {
-                                            "name": "NextCluster",
-                                            "type": "integer",
-                                            "value": "@outputs('Define_Cluster')?['body']['ResultSets']['Table1'][0]['NextCluster']"
-                                        }
-                                    ]
-                                }
-                            },
-                            "Condition": {
-                                "actions": {
-                                    "Get_VpsType": {
-                                        "runAfter": {},
-                                        "type": "ApiConnection",
-                                        "inputs": {
-                                            "host": {
-                                                "connection": {
-                                                    "name": "@parameters('$connections')['sql']['connectionId']"
-                                                }
-                                            },
-                                            "method": "post",
-                                            "body": {
-                                                "query": "SELECT \n    CPU, \n    RAM, \n    HDD\nFROM \n    VPStypes\nWHERE \n    ID = @{triggerBody()?['VPStype']};"
-                                            },
-                                            "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                        }
-                                    },
-                                    "Condition_2": {
-                                        "actions": {
-                                            "FindMacAddress": {
-                                                "runAfter": {},
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['sql']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": {
-                                                        "query": "SELECT TOP 1 *\nFROM Assignments\nWHERE MacAddress IS NOT NULL\n AND CustomerNumber IS NULL;"
-                                                    },
-                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                }
-                                            },
-                                            "Condition_3": {
-                                                "actions": {},
-                                                "runAfter": {
-                                                    "FindMacAddress": [
-                                                        "Succeeded"
-                                                    ]
-                                                },
-                                                "else": {
-                                                    "actions": {
-                                                        "MacAddressNotfound": {
-                                                            "runAfter": {},
-                                                            "type": "Response",
-                                                            "kind": "Http",
-                                                            "inputs": {
-                                                                "statusCode": 500,
-                                                                "body": "No Available MacAddresses were found! Please add MacAddresses in database in order to proceed with Provisioning."
-                                                            }
-                                                        },
-                                                        "Terminate": {
-                                                            "runAfter": {
-                                                                "MacAddressNotfound": [
-                                                                    "Succeeded"
-                                                                ]
-                                                            },
-                                                            "type": "Terminate",
-                                                            "inputs": {
-                                                                "runStatus": "Cancelled"
-                                                            }
-                                                        }
-                                                    }
-                                                },
-                                                "expression": {
-                                                    "and": [
-                                                        {
-                                                            "not": {
-                                                                "equals": [
-                                                                    "@body('FindMacAddress')?['ResultSets']?['Table1'][0]['MACaddress']",
-                                                                    ""
-                                                                ]
-                                                            }
-                                                        }
-                                                    ]
-                                                },
-                                                "type": "If"
-                                            }
-                                        },
-                                        "runAfter": {
-                                            "Get_VpsType": [
-                                                "Succeeded"
-                                            ]
-                                        },
-                                        "else": {
-                                            "actions": {
-                                                "GetCustomerNumber-copy": {
-                                                    "runAfter": {},
-                                                    "type": "ApiConnection",
-                                                    "inputs": {
-                                                        "host": {
-                                                            "connection": {
-                                                                "name": "@parameters('$connections')['sql']['connectionId']"
-                                                            }
-                                                        },
-                                                        "method": "post",
-                                                        "body": {
-                                                            "query": "SELECT \n    CustomerNumber, \n    CustomerVPSNo \nFROM \n    Assignments\nWHERE \n    UUID = '@{triggerBody()?['UUID']}';"
-                                                        },
-                                                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                    }
-                                                },
-                                                "Customernumber-vpsno-copy": {
-                                                    "runAfter": {
-                                                        "GetCustomerNumber-copy": [
-                                                            "Succeeded"
-                                                        ]
-                                                    },
-                                                    "type": "Compose",
-                                                    "inputs": "@concat(' ', outputs('GetCustomerNumber-copy')?['body']['ResultSets']['Table1'][0]['CustomerNumber'], ' - ', outputs('GetCustomerNumber-copy')?['body']['ResultSets']['Table1'][0]['CustomerVPSNo'])\r\n"
-                                                },
-                                                "GetExistingCluster-copy": {
-                                                    "runAfter": {
-                                                        "Customernumber-vpsno-copy": [
-                                                            "Succeeded"
-                                                        ]
-                                                    },
-                                                    "type": "ApiConnection",
-                                                    "inputs": {
-                                                        "host": {
-                                                            "connection": {
-                                                                "name": "@parameters('$connections')['sql']['connectionId']"
-                                                            }
-                                                        },
-                                                        "method": "post",
-                                                        "body": {
-                                                            "query": "SELECT Cluster\nFROM Assignments\nWHERE UUID = '@{triggerBody()?['UUID']}';"
-                                                        },
-                                                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                    }
-                                                },
-                                                "ExistingCluster-copy": {
-                                                    "runAfter": {
-                                                        "GetExistingCluster-copy": [
-                                                            "Succeeded"
-                                                        ]
-                                                    },
-                                                    "type": "Compose",
-                                                    "inputs": "@outputs('GetExistingCluster-copy')?['body']['ResultSets']['Table1'][0]['Cluster']\r\n"
-                                                }
-                                            }
-                                        },
-                                        "expression": {
-                                            "and": [
-                                                {
-                                                    "equals": [
-                                                        "@triggerBody()?['Operation']",
-                                                        "Provision"
-                                                    ]
-                                                }
-                                            ]
-                                        },
-                                        "type": "If"
+                        }
+                    },
+                    "actions": {
+                        "Check_VPS_numbers": {
+                            "runAfter": {},
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['sql']['connectionId']"
                                     }
                                 },
-                                "runAfter": {
-                                    "NextCluster": [
-                                        "Succeeded"
-                                    ]
+                                "method": "post",
+                                "body": {
+                                    "query": "SELECT \n    COALESCE(MAX(CustomerVPSNo), 0) AS MaxVPSNumber\nFROM \n    Assignments\nWHERE \n    CustomerNumber = @{triggerBody()?['CustomerNumber']};  "
                                 },
-                                "else": {
+                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                            }
+                        },
+                        "MaxVpsNo": {
+                            "runAfter": {
+                                "Check_VPS_numbers": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Compose",
+                            "inputs": "@outputs('Check_VPS_numbers')?['body']?['ResultSets']?['Table1']?[0]?['MaxVPSNumber']\r\n"
+                        },
+                        "Define_Cluster": {
+                            "runAfter": {
+                                "MaxVpsNo": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "body": {
+                                    "query": "DECLARE @Cluster1Count INT;\nDECLARE @Cluster2Count INT;\nDECLARE @NextCluster INT;\n\n-- Count occurrences of Cluster = 1 and Cluster = 2\nSELECT \n    @Cluster1Count = COUNT(CASE WHEN Cluster = 1 THEN 1 END),\n    @Cluster2Count = COUNT(CASE WHEN Cluster = 2 THEN 1 END)\nFROM Assignments;\n\n-- Determine which cluster value to use for the next record\nIF @Cluster1Count > @Cluster2Count\n    SET @NextCluster = 2;  -- Use Cluster 2 because Cluster 1 appears more often\nELSE\n    SET @NextCluster = 1;  -- Use Cluster 1 (if Cluster 2 is more frequent, or if they are tied)\n\n-- Return the calculated Cluster value\nSELECT @NextCluster AS NextCluster;\n"
+                                },
+                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                            }
+                        },
+                        "NextCluster": {
+                            "runAfter": {
+                                "Define_Cluster": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "NextCluster",
+                                        "type": "integer",
+                                        "value": "@outputs('Define_Cluster')?['body']['ResultSets']['Table1'][0]['NextCluster']"
+                                    }
+                                ]
+                            }
+                        },
+                        "Condition": {
+                            "actions": {
+                                "Get_VpsType": {
+                                    "runAfter": {},
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['sql']['connectionId']"
+                                            }
+                                        },
+                                        "method": "post",
+                                        "body": {
+                                            "query": "SELECT \n    CPU, \n    RAM, \n    HDD\nFROM \n    VPStypes\nWHERE \n    ID = @{triggerBody()?['VPStype']};"
+                                        },
+                                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                    }
+                                },
+                                "Condition_2": {
                                     "actions": {
-                                        "GetCustomerNumber": {
+                                        "FindMacAddress": {
                                             "runAfter": {},
                                             "type": "ApiConnection",
                                             "inputs": {
@@ -340,23 +191,271 @@
                                                 },
                                                 "method": "post",
                                                 "body": {
-                                                    "query": "SELECT \n    CustomerNumber, \n    CustomerVPSNo \nFROM \n    Assignments\nWHERE \n    UUID = '@{triggerBody()?['UUID']}';"
+                                                    "query": "SELECT TOP 1 *\nFROM Assignments\nWHERE MacAddress IS NOT NULL\n AND CustomerNumber IS NULL;"
                                                 },
                                                 "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
                                             }
                                         },
-                                        "Customernumber-vpsno": {
+                                        "Condition_3": {
+                                            "actions": {},
                                             "runAfter": {
-                                                "GetCustomerNumber": [
+                                                "FindMacAddress": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "else": {
+                                                "actions": {
+                                                    "MacAddressNotfound": {
+                                                        "runAfter": {},
+                                                        "type": "Response",
+                                                        "kind": "Http",
+                                                        "inputs": {
+                                                            "statusCode": 500,
+                                                            "body": "No Available MacAddresses were found! Please add MacAddresses in database in order to proceed with Provisioning."
+                                                        }
+                                                    },
+                                                    "Terminate": {
+                                                        "runAfter": {
+                                                            "MacAddressNotfound": [
+                                                                "Succeeded"
+                                                            ]
+                                                        },
+                                                        "type": "Terminate",
+                                                        "inputs": {
+                                                            "runStatus": "Cancelled"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "expression": {
+                                                "and": [
+                                                    {
+                                                        "not": {
+                                                            "equals": [
+                                                                "@body('FindMacAddress')?['ResultSets']?['Table1'][0]['MACaddress']",
+                                                                ""
+                                                            ]
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            "type": "If"
+                                        }
+                                    },
+                                    "runAfter": {
+                                        "Get_VpsType": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "else": {
+                                        "actions": {
+                                            "GetCustomerNumber-copy": {
+                                                "runAfter": {},
+                                                "type": "ApiConnection",
+                                                "inputs": {
+                                                    "host": {
+                                                        "connection": {
+                                                            "name": "@parameters('$connections')['sql']['connectionId']"
+                                                        }
+                                                    },
+                                                    "method": "post",
+                                                    "body": {
+                                                        "query": "SELECT \n    CustomerNumber, \n    CustomerVPSNo \nFROM \n    Assignments\nWHERE \n    UUID = '@{triggerBody()?['UUID']}';"
+                                                    },
+                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                                }
+                                            },
+                                            "Customernumber-vpsno-copy": {
+                                                "runAfter": {
+                                                    "GetCustomerNumber-copy": [
+                                                        "Succeeded"
+                                                    ]
+                                                },
+                                                "type": "Compose",
+                                                "inputs": "@concat(' ', outputs('GetCustomerNumber-copy')?['body']['ResultSets']['Table1'][0]['CustomerNumber'], ' - ', outputs('GetCustomerNumber-copy')?['body']['ResultSets']['Table1'][0]['CustomerVPSNo'])\r\n"
+                                            },
+                                            "GetExistingCluster-copy": {
+                                                "runAfter": {
+                                                    "Customernumber-vpsno-copy": [
+                                                        "Succeeded"
+                                                    ]
+                                                },
+                                                "type": "ApiConnection",
+                                                "inputs": {
+                                                    "host": {
+                                                        "connection": {
+                                                            "name": "@parameters('$connections')['sql']['connectionId']"
+                                                        }
+                                                    },
+                                                    "method": "post",
+                                                    "body": {
+                                                        "query": "SELECT Cluster\nFROM Assignments\nWHERE UUID = '@{triggerBody()?['UUID']}';"
+                                                    },
+                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                                }
+                                            },
+                                            "ExistingCluster-copy": {
+                                                "runAfter": {
+                                                    "GetExistingCluster-copy": [
+                                                        "Succeeded"
+                                                    ]
+                                                },
+                                                "type": "Compose",
+                                                "inputs": "@outputs('GetExistingCluster-copy')?['body']['ResultSets']['Table1'][0]['Cluster']\r\n"
+                                            }
+                                        }
+                                    },
+                                    "expression": {
+                                        "and": [
+                                            {
+                                                "equals": [
+                                                    "@triggerBody()?['Operation']",
+                                                    "Provision"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "type": "If"
+                                }
+                            },
+                            "runAfter": {
+                                "NextCluster": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "else": {
+                                "actions": {
+                                    "GetCustomerNumber": {
+                                        "runAfter": {},
+                                        "type": "ApiConnection",
+                                        "inputs": {
+                                            "host": {
+                                                "connection": {
+                                                    "name": "@parameters('$connections')['sql']['connectionId']"
+                                                }
+                                            },
+                                            "method": "post",
+                                            "body": {
+                                                "query": "SELECT \n    CustomerNumber, \n    CustomerVPSNo \nFROM \n    Assignments\nWHERE \n    UUID = '@{triggerBody()?['UUID']}';"
+                                            },
+                                            "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                        }
+                                    },
+                                    "Customernumber-vpsno": {
+                                        "runAfter": {
+                                            "GetCustomerNumber": [
+                                                "Succeeded"
+                                            ]
+                                        },
+                                        "type": "Compose",
+                                        "inputs": "concat(' ', outputs('GetCustomerNumber')?['body']['ResultSets']['Table1'][0]['CustomerNumber'], ' - ', outputs('GetCustomerNumber')?['body']['ResultSets']['Table1'][0]['CustomerVPSNo'])"
+                                    },
+                                    "GetExistingCluster": {
+                                        "runAfter": {
+                                            "Customernumber-vpsno": [
+                                                "Succeeded"
+                                            ]
+                                        },
+                                        "type": "ApiConnection",
+                                        "inputs": {
+                                            "host": {
+                                                "connection": {
+                                                    "name": "@parameters('$connections')['sql']['connectionId']"
+                                                }
+                                            },
+                                            "method": "post",
+                                            "body": {
+                                                "query": "SELECT Cluster\nFROM Assignments\nWHERE UUID = '@{triggerBody()?['UUID']}';"
+                                            },
+                                            "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                        }
+                                    },
+                                    "ExistingCluster": {
+                                        "runAfter": {
+                                            "GetExistingCluster": [
+                                                "Succeeded"
+                                            ]
+                                        },
+                                        "type": "Compose",
+                                        "inputs": "outputs('GetExistingCluster')?['body']['ResultSets']['Table1'][0]['Cluster']\n"
+                                    }
+                                }
+                            },
+                            "expression": {
+                                "or": [
+                                    {
+                                        "equals": [
+                                            "@triggerBody()?['Operation']",
+                                            "Provision"
+                                        ]
+                                    },
+                                    {
+                                        "equals": [
+                                            "@triggerBody()?['Operation']",
+                                            "Resize"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "type": "If"
+                        },
+                        "Switch": {
+                            "runAfter": {
+                                "Condition": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "cases": {
+                                "Deprovision": {
+                                    "case": "Deprovision",
+                                    "actions": {
+                                        "Get_ID": {
+                                            "runAfter": {},
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "body": {
+                                                    "query": "SELECT ID FROM Assignments WHERE UUID = '@{triggerBody()?['UUID']}'"
+                                                },
+                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                            }
+                                        },
+                                        "Parse_ID": {
+                                            "runAfter": {
+                                                "Get_ID": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "ParseJson",
+                                            "inputs": {
+                                                "content": "@body('Get_ID')",
+                                                "schema": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "ID": {
+                                                            "type": "integer"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "AssignmentID": {
+                                            "runAfter": {
+                                                "Parse_ID": [
                                                     "Succeeded"
                                                 ]
                                             },
                                             "type": "Compose",
-                                            "inputs": "concat(' ', outputs('GetCustomerNumber')?['body']['ResultSets']['Table1'][0]['CustomerNumber'], ' - ', outputs('GetCustomerNumber')?['body']['ResultSets']['Table1'][0]['CustomerVPSNo'])"
+                                            "inputs": "@body('Parse_ID')['ResultSets']['Table1'][0]['ID']\r\n"
                                         },
-                                        "GetExistingCluster": {
+                                        "AddDeprovisionRequest": {
                                             "runAfter": {
-                                                "Customernumber-vpsno": [
+                                                "AssignmentID": [
                                                     "Succeeded"
                                                 ]
                                             },
@@ -369,235 +468,215 @@
                                                 },
                                                 "method": "post",
                                                 "body": {
-                                                    "query": "SELECT Cluster\nFROM Assignments\nWHERE UUID = '@{triggerBody()?['UUID']}';"
+                                                    "query": "INSERT INTO DeprovisionRequests (AssignmentID, RequestDateTime)\nVALUES (@{outputs('AssignmentID')}, GETDATE());\n"
                                                 },
                                                 "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
                                             }
                                         },
-                                        "ExistingCluster": {
+                                        "ShutDown_W8_queue_b4_depr": {
                                             "runAfter": {
-                                                "GetExistingCluster": [
+                                                "AddDeprovisionRequest": [
                                                     "Succeeded"
                                                 ]
                                             },
-                                            "type": "Compose",
-                                            "inputs": "outputs('GetExistingCluster')?['body']['ResultSets']['Table1'][0]['Cluster']\n"
-                                        }
-                                    }
-                                },
-                                "expression": {
-                                    "or": [
-                                        {
-                                            "equals": [
-                                                "@triggerBody()?['Operation']",
-                                                "Provision"
-                                            ]
-                                        },
-                                        {
-                                            "equals": [
-                                                "@triggerBody()?['Operation']",
-                                                "Resize"
-                                            ]
-                                        }
-                                    ]
-                                },
-                                "type": "If"
-                            },
-                            "Switch": {
-                                "runAfter": {
-                                    "Condition": [
-                                        "Succeeded"
-                                    ]
-                                },
-                                "cases": {
-                                    "Deprovision": {
-                                        "case": "Deprovision",
-                                        "actions": {
-                                            "Get_ID": {
-                                                "runAfter": {},
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['sql']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": {
-                                                        "query": "SELECT ID FROM Assignments WHERE UUID = '@{triggerBody()?['UUID']}'"
-                                                    },
-                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                }
-                                            },
-                                            "Parse_ID": {
-                                                "runAfter": {
-                                                    "Get_ID": [
-                                                        "Succeeded"
-                                                    ]
-                                                },
-                                                "type": "ParseJson",
-                                                "inputs": {
-                                                    "content": "@body('Get_ID')",
-                                                    "schema": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "ID": {
-                                                                "type": "integer"
-                                                            }
-                                                        }
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['azurequeues']['connectionId']"
                                                     }
-                                                }
-                                            },
-                                            "AssignmentID": {
-                                                "runAfter": {
-                                                    "Parse_ID": [
-                                                        "Succeeded"
-                                                    ]
                                                 },
-                                                "type": "Compose",
-                                                "inputs": "@body('Parse_ID')['ResultSets']['Table1'][0]['ID']\r\n"
+                                                "method": "post",
+                                                "body": "{\n  \"Runbook\": \"icm-ny6-vm-shutdown\",\n  \"Parameters\": {\n    \"CustomerNumber\": @{outputs('Customernumber-vpsno')},\n    \"DestinationCluster\"@{outputs('ExistingCluster')}: \n  }\n}",
+                                                "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
+                                            }
+                                        },
+                                        "Execute_a_SQL_query_(V2)": {
+                                            "runAfter": {
+                                                "ShutDown_W8_queue_b4_depr": [
+                                                    "Succeeded"
+                                                ]
                                             },
-                                            "AddDeprovisionRequest": {
-                                                "runAfter": {
-                                                    "AssignmentID": [
-                                                        "Succeeded"
-                                                    ]
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                    }
                                                 },
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['sql']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": {
-                                                        "query": "INSERT INTO DeprovisionRequests (AssignmentID, RequestDateTime)\nVALUES (@{outputs('AssignmentID')}, GETDATE());\n"
-                                                    },
-                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                }
+                                                "method": "post",
+                                                "body": {
+                                                    "query": "UPDATE Assignments\nSET status = 'Pending Shutdown(Deprovision Requsted)'\nWHERE uuid = '@{triggerBody()?['UUID']}';"
+                                                },
+                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                            }
+                                        },
+                                        "Response": {
+                                            "runAfter": {
+                                                "Execute_a_SQL_query_(V2)": [
+                                                    "Succeeded"
+                                                ]
                                             },
-                                            "ShutDown_W8_queue_b4_depr": {
-                                                "runAfter": {
-                                                    "AddDeprovisionRequest": [
-                                                        "Succeeded"
-                                                    ]
+                                            "type": "Response",
+                                            "kind": "Http",
+                                            "inputs": {
+                                                "statusCode": 200,
+                                                "body": {
+                                                    "Status": "Success",
+                                                    "RunbookCalling": "icm-ny6-vm-ShutDown",
+                                                    "Message": "The runbook was called successfully."
                                                 },
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['azurequeues']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": "{\n  \"Runbook\": \"icm-ny6-vm-shutdown\",\n  \"Parameters\": {\n    \"CustomerNumber\": @{outputs('Customernumber-vpsno')},\n    \"DestinationCluster\"@{outputs('ExistingCluster')}: \n  }\n}",
-                                                    "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
-                                                }
-                                            },
-                                            "Execute_a_SQL_query_(V2)": {
-                                                "runAfter": {
-                                                    "ShutDown_W8_queue_b4_depr": [
-                                                        "Succeeded"
-                                                    ]
-                                                },
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['sql']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": {
-                                                        "query": "UPDATE Assignments\nSET status = 'Pending Shutdown(Deprovision Requsted)'\nWHERE uuid = '@{triggerBody()?['UUID']}';"
-                                                    },
-                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                }
-                                            },
-                                            "Response": {
-                                                "runAfter": {
-                                                    "Execute_a_SQL_query_(V2)": [
-                                                        "Succeeded"
-                                                    ]
-                                                },
-                                                "type": "Response",
-                                                "kind": "Http",
-                                                "inputs": {
-                                                    "statusCode": 200,
-                                                    "body": {
-                                                        "Status": "Success",
-                                                        "RunbookCalling": "icm-ny6-vm-ShutDown",
-                                                        "Message": "The runbook was called successfully."
-                                                    },
-                                                    "schema": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "Status": {
-                                                                "type": "string"
-                                                            },
-                                                            "RunbookCalling": {
-                                                                "type": "string"
-                                                            },
-                                                            "Message": {
-                                                                "type": "string"
-                                                            }
+                                                "schema": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "Status": {
+                                                            "type": "string"
+                                                        },
+                                                        "RunbookCalling": {
+                                                            "type": "string"
+                                                        },
+                                                        "Message": {
+                                                            "type": "string"
                                                         }
                                                     }
                                                 }
                                             }
                                         }
-                                    },
-                                    "Provision": {
-                                        "case": "Provision",
-                                        "actions": {
-                                            "CheckUUID": {
-                                                "runAfter": {},
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['sql']['connectionId']"
+                                    }
+                                },
+                                "Provision": {
+                                    "case": "Provision",
+                                    "actions": {
+                                        "CheckUUID": {
+                                            "runAfter": {},
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "body": {
+                                                    "query": "SELECT \n    CASE \n        WHEN EXISTS (SELECT 1 FROM Assignments WHERE UUID = '@{triggerBody()?['UUID']}') \n        THEN 'UUID exists' \n        ELSE 'UUID does not exist' \n    END AS UUIDCheck;"
+                                                },
+                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                            }
+                                        },
+                                        "Condition_4": {
+                                            "actions": {
+                                                "FailedUUID": {
+                                                    "runAfter": {},
+                                                    "type": "ApiConnection",
+                                                    "inputs": {
+                                                        "host": {
+                                                            "connection": {
+                                                                "name": "@parameters('$connections')['azurequeues_2']['connectionId']"
+                                                            }
+                                                        },
+                                                        "method": "post",
+                                                        "body": "{\n\"Status\":\"Failure\",\n\"ErrorMessage\":\"UUID already exist\" \n}",
+                                                        "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
+                                                    }
+                                                },
+                                                "Provisioning_Fail": {
+                                                    "runAfter": {
+                                                        "FailedUUID": [
+                                                            "Succeeded"
+                                                        ]
+                                                    },
+                                                    "type": "Response",
+                                                    "kind": "Http",
+                                                    "inputs": {
+                                                        "statusCode": 500,
+                                                        "body": {
+                                                            "Status": "Failure",
+                                                            "Error": "An error occurred while calling the runbook.",
+                                                            "Message": "UUID is already registered. Provide a new UUID"
+                                                        },
+                                                        "schema": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "Status": {
+                                                                    "type": "string"
+                                                                },
+                                                                "RunbookCalling": {
+                                                                    "type": "string"
+                                                                },
+                                                                "Message": {
+                                                                    "type": "string"
+                                                                }
+                                                            }
                                                         }
-                                                    },
-                                                    "method": "post",
-                                                    "body": {
-                                                        "query": "SELECT \n    CASE \n        WHEN EXISTS (SELECT 1 FROM Assignments WHERE UUID = '@{triggerBody()?['UUID']}') \n        THEN 'UUID exists' \n        ELSE 'UUID does not exist' \n    END AS UUIDCheck;"
-                                                    },
-                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                                    }
                                                 }
                                             },
-                                            "Condition_4": {
+                                            "runAfter": {
+                                                "CheckUUID": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "else": {
                                                 "actions": {
-                                                    "FailedUUID": {
-                                                        "runAfter": {},
-                                                        "type": "ApiConnection",
-                                                        "inputs": {
-                                                            "host": {
-                                                                "connection": {
-                                                                    "name": "@parameters('$connections')['azurequeues_2']['connectionId']"
+                                                    "For_each": {
+                                                        "foreach": "@body('FindMacAddress')?['resultsets']?['Table1']",
+                                                        "actions": {
+                                                            "Add_NewCustomerNumber": {
+                                                                "runAfter": {},
+                                                                "type": "ApiConnection",
+                                                                "inputs": {
+                                                                    "host": {
+                                                                        "connection": {
+                                                                            "name": "@parameters('$connections')['sql']['connectionId']"
+                                                                        }
+                                                                    },
+                                                                    "method": "post",
+                                                                    "body": {
+                                                                        "query": "UPDATE Assignments\nSET \n    CustomerNumber = @{triggerBody()?['CustomerNumber']},\n    VPStype = @{triggerBody()?['VPStype']},\n    Juristriction = @{triggerBody()?['Juristriction']},\n    Uuid = '@{triggerBody()?['UUID']}',\n    CustomerVPSNo = @{outputs('MaxVpsNo')} + 1,  \n    Cluster = @{variables('NextCluster')}         \nWHERE \n    MACaddress = '@{items('For_each')?['MACaddress']}';            \n"
+                                                                    },
+                                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
                                                                 }
-                                                            },
-                                                            "method": "post",
-                                                            "body": "{\n\"Status\":\"Failure\",\n\"ErrorMessage\":\"UUID already exist\" \n}",
-                                                            "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
-                                                        }
+                                                            }
+                                                        },
+                                                        "runAfter": {},
+                                                        "type": "Foreach"
                                                     },
-                                                    "Provisioning_Fail": {
+                                                    "For_each_2": {
+                                                        "foreach": "@body('FindMacAddress')?['resultsets']?['Table1']",
+                                                        "actions": {
+                                                            "Put_a_message_on_a_queue_(V2)_2": {
+                                                                "runAfter": {},
+                                                                "type": "ApiConnection",
+                                                                "inputs": {
+                                                                    "host": {
+                                                                        "connection": {
+                                                                            "name": "@parameters('$connections')['azurequeues_3']['connectionId']"
+                                                                        }
+                                                                    },
+                                                                    "method": "post",
+                                                                    "body": "{\n  \"Runbook\": \"icm-ny6-vm-provisioning\",\n  \"Parameters\": {\n   \"CustomerNumber\": @{triggerBody()?['CustomerNumber']}-@{add(outputs('MaxVpsNo'), 1)},\t\n    \"VPStype\":@{triggerBody()?['VPStype']},\n    \"Juristriction\": @{triggerBody()?['Juristriction']},\n    \"MAC\":  @{item()?['MACaddress']},\n    \"CPU\": @{triggerBody()?['CPU']},\n    \"HDD\": @{triggerBody()?['HDD']},\n    \"RAM\": @{triggerBody()?['RAM']} \n\n  }\n}\n",
+                                                                    "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
+                                                                }
+                                                            }
+                                                        },
                                                         "runAfter": {
-                                                            "FailedUUID": [
+                                                            "For_each": [
+                                                                "Succeeded"
+                                                            ]
+                                                        },
+                                                        "type": "Foreach"
+                                                    },
+                                                    "Response_3": {
+                                                        "runAfter": {
+                                                            "For_each_2": [
                                                                 "Succeeded"
                                                             ]
                                                         },
                                                         "type": "Response",
                                                         "kind": "Http",
                                                         "inputs": {
-                                                            "statusCode": 500,
-                                                            "body": {
-                                                                "Status": "Failure",
-                                                                "Error": "An error occurred while calling the runbook.",
-                                                                "Message": "UUID is already registered. Provide a new UUID"
-                                                            },
+                                                            "statusCode": 200,
+                                                            "body": "\n  \"Status\": \"Success\",\n  \"RunbookCalling\": \"icm-ny6-vm-Provisioning\",\n  \"Message\": \"The runbook was called successfully.\"\n}",
                                                             "schema": {
                                                                 "type": "object",
                                                                 "properties": {
@@ -613,484 +692,398 @@
                                                                 }
                                                             }
                                                         }
-                                                    }
-                                                },
-                                                "runAfter": {
-                                                    "CheckUUID": [
-                                                        "Succeeded"
-                                                    ]
-                                                },
-                                                "else": {
-                                                    "actions": {
-                                                        "For_each": {
-                                                            "foreach": "@body('FindMacAddress')?['resultsets']?['Table1']",
-                                                            "actions": {
-                                                                "Add_NewCustomerNumber": {
-                                                                    "runAfter": {},
-                                                                    "type": "ApiConnection",
-                                                                    "inputs": {
-                                                                        "host": {
-                                                                            "connection": {
-                                                                                "name": "@parameters('$connections')['sql']['connectionId']"
-                                                                            }
-                                                                        },
-                                                                        "method": "post",
-                                                                        "body": {
-                                                                            "query": "UPDATE Assignments\nSET \n    CustomerNumber = @{triggerBody()?['CustomerNumber']},\n    VPStype = @{triggerBody()?['VPStype']},\n    Juristriction = @{triggerBody()?['Juristriction']},\n    Uuid = '@{triggerBody()?['UUID']}',\n    CustomerVPSNo = @{outputs('MaxVpsNo')} + 1,  \n    Cluster = @{variables('NextCluster')}         \nWHERE \n    MACaddress = '@{items('For_each')?['MACaddress']}';            \n"
-                                                                        },
-                                                                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                                    }
-                                                                }
-                                                            },
-                                                            "runAfter": {},
-                                                            "type": "Foreach"
-                                                        },
-                                                        "For_each_2": {
-                                                            "foreach": "@body('FindMacAddress')?['resultsets']?['Table1']",
-                                                            "actions": {
-                                                                "Put_a_message_on_a_queue_(V2)_2": {
-                                                                    "runAfter": {},
-                                                                    "type": "ApiConnection",
-                                                                    "inputs": {
-                                                                        "host": {
-                                                                            "connection": {
-                                                                                "name": "@parameters('$connections')['azurequeues_3']['connectionId']"
-                                                                            }
-                                                                        },
-                                                                        "method": "post",
-                                                                        "body": "{\n  \"Runbook\": \"icm-ny6-vm-provisioning\",\n  \"Parameters\": {\n   \"CustomerNumber\": @{triggerBody()?['CustomerNumber']}-@{add(outputs('MaxVpsNo'), 1)},\t\n    \"VPStype\":@{triggerBody()?['VPStype']},\n    \"Juristriction\": @{triggerBody()?['Juristriction']},\n    \"MAC\":  @{item()?['MACaddress']},\n    \"CPU\": @{triggerBody()?['CPU']},\n    \"HDD\": @{triggerBody()?['HDD']},\n    \"RAM\": @{triggerBody()?['RAM']} \n\n  }\n}\n",
-                                                                        "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
-                                                                    }
-                                                                }
-                                                            },
-                                                            "runAfter": {
-                                                                "For_each": [
-                                                                    "Succeeded"
-                                                                ]
-                                                            },
-                                                            "type": "Foreach"
-                                                        },
-                                                        "Response_3": {
-                                                            "runAfter": {
-                                                                "For_each_2": [
-                                                                    "Succeeded"
-                                                                ]
-                                                            },
-                                                            "type": "Response",
-                                                            "kind": "Http",
-                                                            "inputs": {
-                                                                "statusCode": 200,
-                                                                "body": "\n  \"Status\": \"Success\",\n  \"RunbookCalling\": \"icm-ny6-vm-Provisioning\",\n  \"Message\": \"The runbook was called successfully.\"\n}",
-                                                                "schema": {
-                                                                    "type": "object",
-                                                                    "properties": {
-                                                                        "Status": {
-                                                                            "type": "string"
-                                                                        },
-                                                                        "RunbookCalling": {
-                                                                            "type": "string"
-                                                                        },
-                                                                        "Message": {
-                                                                            "type": "string"
+                                                    },
+                                                    "For_each_3": {
+                                                        "foreach": "@body('FindMacAddress')?['resultsets']?['Table1']",
+                                                        "actions": {
+                                                            "Set_Status": {
+                                                                "runAfter": {},
+                                                                "type": "ApiConnection",
+                                                                "inputs": {
+                                                                    "host": {
+                                                                        "connection": {
+                                                                            "name": "@parameters('$connections')['sql']['connectionId']"
                                                                         }
-                                                                    }
+                                                                    },
+                                                                    "method": "post",
+                                                                    "body": {
+                                                                        "query": "UPDATE assignments\nSET status = 'Pending Provisioning'\nWHERE uuid = '@{triggerBody()?['UUID']}';\n"
+                                                                    },
+                                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
                                                                 }
                                                             }
                                                         },
-                                                        "For_each_3": {
-                                                            "foreach": "@body('FindMacAddress')?['resultsets']?['Table1']",
-                                                            "actions": {
-                                                                "Set_Status": {
-                                                                    "runAfter": {},
-                                                                    "type": "ApiConnection",
-                                                                    "inputs": {
-                                                                        "host": {
-                                                                            "connection": {
-                                                                                "name": "@parameters('$connections')['sql']['connectionId']"
-                                                                            }
-                                                                        },
-                                                                        "method": "post",
-                                                                        "body": {
-                                                                            "query": "UPDATE assignments\nSET status = 'Pending Provisioning'\nWHERE uuid = '@{triggerBody()?['UUID']}';\n"
-                                                                        },
-                                                                        "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                                    }
-                                                                }
-                                                            },
-                                                            "runAfter": {
-                                                                "Response_3": [
-                                                                    "Succeeded"
-                                                                ]
-                                                            },
-                                                            "type": "Foreach"
-                                                        }
-                                                    }
-                                                },
-                                                "expression": {
-                                                    "and": [
-                                                        {
-                                                            "equals": [
-                                                                "@outputs('CheckUUID')['body']['ResultSets']['Table1'][0]['UUIDCheck']",
-                                                                "UUID exists"
+                                                        "runAfter": {
+                                                            "Response_3": [
+                                                                "Succeeded"
                                                             ]
-                                                        }
-                                                    ]
-                                                },
-                                                "type": "If"
-                                            }
-                                        }
-                                    },
-                                    "Reset_Password": {
-                                        "case": "Reset Password",
-                                        "actions": {
-                                            "Put_a_message_on_a_queue_(V2)": {
-                                                "runAfter": {},
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['azurequeues_1']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": "{\n  \"Runbook\": \"icm-ny6-vm-reset_password\",\n  \"Parameters\": {\n    \"CustomerNumber\": @{outputs('Customernumber-vpsno')},\n    \"DestinationCluster\"@{outputs('ExistingCluster')}: \n  }\n}\n",
-                                                    "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
-                                                }
-                                            },
-                                            "Response_2": {
-                                                "runAfter": {
-                                                    "Put_a_message_on_a_queue_(V2)": [
-                                                        "Succeeded"
-                                                    ]
-                                                },
-                                                "type": "Response",
-                                                "kind": "Http",
-                                                "inputs": {
-                                                    "statusCode": 200,
-                                                    "body": {
-                                                        "Status": "Success",
-                                                        "RunbookCalling": "icm-ny6-vm-Reset_Password",
-                                                        "Message": "The runbook was called successfully."
-                                                    },
-                                                    "schema": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "Status": {
-                                                                "type": "string"
-                                                            },
-                                                            "RunbookCalling": {
-                                                                "type": "string"
-                                                            },
-                                                            "Message": {
-                                                                "type": "string"
-                                                            }
-                                                        }
+                                                        },
+                                                        "type": "Foreach"
                                                     }
                                                 }
                                             },
-                                            "Execute_a_SQL_query_(V2)_2": {
-                                                "runAfter": {
-                                                    "Response_2": [
-                                                        "Succeeded"
-                                                    ]
-                                                },
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['sql']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": {
-                                                        "query": "UPDATE assignments\nSET status = 'Pending Password Reset'\nWHERE uuid = '@{triggerBody()?['UUID']}';"
-                                                    },
-                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                }
-                                            }
-                                        }
-                                    },
-                                    "Resize": {
-                                        "case": "Resize",
-                                        "actions": {
-                                            "Resize_W8_queue": {
-                                                "runAfter": {},
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['azurequeues_4']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": "{\n  \"Runbook\": \"icm-ny6-vm-resize\",\n  \"Parameters\": {\n   \"CustomerNumber\": @{outputs('Customernumber-vpsno-copy')} ,\t\n    \"DestinationCluster\"@{outputs('ExistingCluster-copy')}:,\n    \"CPU\": @{triggerBody()?['CPU']},\n    \"HDD\": @{triggerBody()?['HDD']},\n    \"RAM\": @{triggerBody()?['RAM']}\n\n  }\n}\n",
-                                                    "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
-                                                }
-                                            },
-                                            "Response_4": {
-                                                "runAfter": {
-                                                    "Resize_W8_queue": [
-                                                        "Succeeded"
-                                                    ]
-                                                },
-                                                "type": "Response",
-                                                "kind": "Http",
-                                                "inputs": {
-                                                    "statusCode": 200,
-                                                    "body": {
-                                                        "Status": "Success",
-                                                        "RunbookCalling": "icm-ny6-vm-resize",
-                                                        "Message": "The runbook was called successfully."
-                                                    },
-                                                    "schema": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "Status": {
-                                                                "type": "string"
-                                                            },
-                                                            "RunbookCalling": {
-                                                                "type": "string"
-                                                            },
-                                                            "Message": {
-                                                                "type": "string"
-                                                            }
-                                                        }
+                                            "expression": {
+                                                "and": [
+                                                    {
+                                                        "equals": [
+                                                            "@outputs('CheckUUID')['body']['ResultSets']['Table1'][0]['UUIDCheck']",
+                                                            "UUID exists"
+                                                        ]
                                                     }
-                                                }
+                                                ]
                                             },
-                                            "Execute_a_SQL_query_(V2)_3": {
-                                                "runAfter": {
-                                                    "Response_4": [
-                                                        "Succeeded"
-                                                    ]
-                                                },
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['sql']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": {
-                                                        "query": "UPDATE assignments\nSET status = 'Pending Resize'\nWHERE uuid = '@{triggerBody()?['UUID']}';"
-                                                    },
-                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                }
-                                            }
+                                            "type": "If"
                                         }
-                                    },
-                                    "Restart": {
-                                        "case": "Restart",
-                                        "actions": {
-                                            "Put_a_message_on_a_queue_(V2)_3": {
-                                                "runAfter": {},
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['azurequeues_2']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": "{\n  \"Runbook\": \"icm-ny6-vm-restart\",\n  \"Parameters\": {\n    \"CustomerNumber\":@{outputs('Customernumber-vpsno')} ,\n    \"DestinationCluster\"@{outputs('ExistingCluster')}: \n  }\n}\n\n",
-                                                    "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
-                                                }
-                                            },
-                                            "Restart_Success": {
-                                                "runAfter": {
-                                                    "Put_a_message_on_a_queue_(V2)_3": [
-                                                        "Succeeded"
-                                                    ]
+                                    }
+                                },
+                                "Reset_Password": {
+                                    "case": "Reset Password",
+                                    "actions": {
+                                        "Put_a_message_on_a_queue_(V2)": {
+                                            "runAfter": {},
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['azurequeues_1']['connectionId']"
+                                                    }
                                                 },
-                                                "type": "Response",
-                                                "kind": "Http",
-                                                "inputs": {
-                                                    "statusCode": 200,
-                                                    "body": {
-                                                        "Status": "Success",
-                                                        "RunbookCalling": "icm-ny6-vm-restart",
-                                                        "Message": "The runbook was called successfully."
-                                                    },
-                                                    "schema": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "Status": {
-                                                                "type": "string"
-                                                            },
-                                                            "RunbookCalling": {
-                                                                "type": "string"
-                                                            },
-                                                            "Message": {
-                                                                "type": "string"
-                                                            }
+                                                "method": "post",
+                                                "body": "{\n  \"Runbook\": \"icm-ny6-vm-reset_password\",\n  \"Parameters\": {\n    \"CustomerNumber\": @{outputs('Customernumber-vpsno')},\n    \"DestinationCluster\"@{outputs('ExistingCluster')}: \n  }\n}\n",
+                                                "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
+                                            }
+                                        },
+                                        "Response_2": {
+                                            "runAfter": {
+                                                "Put_a_message_on_a_queue_(V2)": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "Response",
+                                            "kind": "Http",
+                                            "inputs": {
+                                                "statusCode": 200,
+                                                "body": {
+                                                    "Status": "Success",
+                                                    "RunbookCalling": "icm-ny6-vm-Reset_Password",
+                                                    "Message": "The runbook was called successfully."
+                                                },
+                                                "schema": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "Status": {
+                                                            "type": "string"
+                                                        },
+                                                        "RunbookCalling": {
+                                                            "type": "string"
+                                                        },
+                                                        "Message": {
+                                                            "type": "string"
                                                         }
                                                     }
                                                 }
                                             }
-                                        }
-                                    },
-                                    "ShutDown": {
-                                        "case": "Shutdown",
-                                        "actions": {
-                                            "Put_a_message_on_a_queue_(V2)_4": {
-                                                "runAfter": {},
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['azurequeues_3']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": "{\n  \"Runbook\": \"icm-ny6-vm-shutdown\",\n  \"Parameters\": {\n    \"CustomerNumber\": @{outputs('Customernumber-vpsno')},\n    \"DestinationCluster\"@{outputs('ExistingCluster')}: \n  }\n}\n",
-                                                    "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
-                                                }
+                                        },
+                                        "Execute_a_SQL_query_(V2)_2": {
+                                            "runAfter": {
+                                                "Response_2": [
+                                                    "Succeeded"
+                                                ]
                                             },
-                                            "Response_5": {
-                                                "runAfter": {
-                                                    "Put_a_message_on_a_queue_(V2)_4": [
-                                                        "Succeeded"
-                                                    ]
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                    }
                                                 },
-                                                "type": "Response",
-                                                "kind": "Http",
-                                                "inputs": {
-                                                    "statusCode": 200,
-                                                    "body": {
-                                                        "Status": "Success",
-                                                        "RunbookCalling": "icm-ny6-vm-ShutDown",
-                                                        "Message": "The runbook was called successfully."
-                                                    },
-                                                    "schema": {
-                                                        "type": "object",
-                                                        "properties": {
-                                                            "Status": {
-                                                                "type": "string"
-                                                            },
-                                                            "RunbookCalling": {
-                                                                "type": "string"
-                                                            },
-                                                            "Message": {
-                                                                "type": "string"
-                                                            }
+                                                "method": "post",
+                                                "body": {
+                                                    "query": "UPDATE assignments\nSET status = 'Pending Password Reset'\nWHERE uuid = '@{triggerBody()?['UUID']}';"
+                                                },
+                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                            }
+                                        }
+                                    }
+                                },
+                                "Resize": {
+                                    "case": "Resize",
+                                    "actions": {
+                                        "Resize_W8_queue": {
+                                            "runAfter": {},
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['azurequeues_4']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "body": "{\n  \"Runbook\": \"icm-ny6-vm-resize\",\n  \"Parameters\": {\n   \"CustomerNumber\": @{outputs('Customernumber-vpsno-copy')} ,\t\n    \"DestinationCluster\"@{outputs('ExistingCluster-copy')}:,\n    \"CPU\": @{triggerBody()?['CPU']},\n    \"HDD\": @{triggerBody()?['HDD']},\n    \"RAM\": @{triggerBody()?['RAM']}\n\n  }\n}\n",
+                                                "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
+                                            }
+                                        },
+                                        "Response_4": {
+                                            "runAfter": {
+                                                "Resize_W8_queue": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "Response",
+                                            "kind": "Http",
+                                            "inputs": {
+                                                "statusCode": 200,
+                                                "body": {
+                                                    "Status": "Success",
+                                                    "RunbookCalling": "icm-ny6-vm-resize",
+                                                    "Message": "The runbook was called successfully."
+                                                },
+                                                "schema": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "Status": {
+                                                            "type": "string"
+                                                        },
+                                                        "RunbookCalling": {
+                                                            "type": "string"
+                                                        },
+                                                        "Message": {
+                                                            "type": "string"
                                                         }
                                                     }
                                                 }
+                                            }
+                                        },
+                                        "Execute_a_SQL_query_(V2)_3": {
+                                            "runAfter": {
+                                                "Response_4": [
+                                                    "Succeeded"
+                                                ]
                                             },
-                                            "Execute_a_SQL_query_(V2)_4": {
-                                                "runAfter": {
-                                                    "Response_5": [
-                                                        "Succeeded"
-                                                    ]
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                    }
                                                 },
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['sql']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": {
-                                                        "query": "UPDATE assignments\nSET status = 'Pending Shutdown'\nWHERE uuid = '@{triggerBody()?['UUID']}';"
-                                                    },
-                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                }
+                                                "method": "post",
+                                                "body": {
+                                                    "query": "UPDATE assignments\nSET status = 'Pending Resize'\nWHERE uuid = '@{triggerBody()?['UUID']}';"
+                                                },
+                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
                                             }
                                         }
-                                    },
-                                    "CancelDeprovision": {
-                                        "case": "Cancel Deprovision ",
-                                        "actions": {
-                                            "Cancel_Deprovision": {
-                                                "runAfter": {},
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['sql']['connectionId']"
-                                                        }
-                                                    },
-                                                    "method": "post",
-                                                    "body": {
-                                                        "query": "UPDATE assignments\nSET status = 'Deprovision Cancelled'\nWHERE uuid = '@{triggerBody()?['UUID']}';"
-                                                    },
-                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
-                                                }
-                                            },
-                                            "DeleteDeprovision": {
-                                                "runAfter": {
-                                                    "Cancel_Deprovision": [
-                                                        "Succeeded"
-                                                    ]
+                                    }
+                                },
+                                "Restart": {
+                                    "case": "Restart",
+                                    "actions": {
+                                        "Put_a_message_on_a_queue_(V2)_3": {
+                                            "runAfter": {},
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['azurequeues_2']['connectionId']"
+                                                    }
                                                 },
-                                                "type": "ApiConnection",
-                                                "inputs": {
-                                                    "host": {
-                                                        "connection": {
-                                                            "name": "@parameters('$connections')['sql']['connectionId']"
+                                                "method": "post",
+                                                "body": "{\n  \"Runbook\": \"icm-ny6-vm-restart\",\n  \"Parameters\": {\n    \"CustomerNumber\":@{outputs('Customernumber-vpsno')} ,\n    \"DestinationCluster\"@{outputs('ExistingCluster')}: \n  }\n}\n\n",
+                                                "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
+                                            }
+                                        },
+                                        "Restart_Success": {
+                                            "runAfter": {
+                                                "Put_a_message_on_a_queue_(V2)_3": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "Response",
+                                            "kind": "Http",
+                                            "inputs": {
+                                                "statusCode": 200,
+                                                "body": {
+                                                    "Status": "Success",
+                                                    "RunbookCalling": "icm-ny6-vm-restart",
+                                                    "Message": "The runbook was called successfully."
+                                                },
+                                                "schema": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "Status": {
+                                                            "type": "string"
+                                                        },
+                                                        "RunbookCalling": {
+                                                            "type": "string"
+                                                        },
+                                                        "Message": {
+                                                            "type": "string"
                                                         }
-                                                    },
-                                                    "method": "post",
-                                                    "body": {
-                                                        "query": "DECLARE @AssignmentID INT;\nSELECT @AssignmentID = ID \nFROM Assignments\nWHERE UUID = '@{triggerBody()?['UUID']}';\nDELETE FROM DeprovisionRequests\nWHERE AssignmentID = @AssignmentID;"
-                                                    },
-                                                    "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 },
-                                "default": {
-                                    "actions": {}
+                                "ShutDown": {
+                                    "case": "Shutdown",
+                                    "actions": {
+                                        "Put_a_message_on_a_queue_(V2)_4": {
+                                            "runAfter": {},
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['azurequeues_3']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "body": "{\n  \"Runbook\": \"icm-ny6-vm-shutdown\",\n  \"Parameters\": {\n    \"CustomerNumber\": @{outputs('Customernumber-vpsno')},\n    \"DestinationCluster\"@{outputs('ExistingCluster')}: \n  }\n}\n",
+                                                "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('waitingqueue')}/messages"
+                                            }
+                                        },
+                                        "Response_5": {
+                                            "runAfter": {
+                                                "Put_a_message_on_a_queue_(V2)_4": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "Response",
+                                            "kind": "Http",
+                                            "inputs": {
+                                                "statusCode": 200,
+                                                "body": {
+                                                    "Status": "Success",
+                                                    "RunbookCalling": "icm-ny6-vm-ShutDown",
+                                                    "Message": "The runbook was called successfully."
+                                                },
+                                                "schema": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "Status": {
+                                                            "type": "string"
+                                                        },
+                                                        "RunbookCalling": {
+                                                            "type": "string"
+                                                        },
+                                                        "Message": {
+                                                            "type": "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "Execute_a_SQL_query_(V2)_4": {
+                                            "runAfter": {
+                                                "Response_5": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "body": {
+                                                    "query": "UPDATE assignments\nSET status = 'Pending Shutdown'\nWHERE uuid = '@{triggerBody()?['UUID']}';"
+                                                },
+                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                            }
+                                        }
+                                    }
                                 },
-                                "expression": "@triggerBody()?['Operation']",
-                                "type": "Switch"
-                            }
-                        },
-                        "outputs": {}
-                    },
-                    "parameters": {
-                        "$connections": {
-                            "value": {
-                                "sql": {
-                                    "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/sql",
-                                    "connectionId": "[parameters('connections_sql_externalid')]",
-                                    "connectionName": "sql"
-                                },
-                                "azurequeues": {
-                                    "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
-                                    "connectionId": "[parameters('connections_azurequeues_2_externalid')]",
-                                    "connectionName": "azurequeues-2"
-                                },
-                                "azurequeues_2": {
-                                    "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
-                                    "connectionId": "[parameters('connections_azurequeues_externalid')]",
-                                    "connectionName": "azurequeues"
-                                },
-                                "azurequeues_3": {
-                                    "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
-                                    "connectionId": "[parameters('connections_azurequeues_4_externalid')]",
-                                    "connectionName": "azurequeues-4"
-                                },
-                                "azurequeues_1": {
-                                    "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
-                                    "connectionId": "[parameters('connections_azurequeues_5_externalid')]",
-                                    "connectionName": "azurequeues-5"
-                                },
-                                "azurequeues_4": {
-                                    "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
-                                    "connectionId": "[parameters('connections_azurequeues_1_externalid')]",
-                                    "connectionName": "azurequeues-1"
+                                "CancelDeprovision": {
+                                    "case": "Cancel Deprovision ",
+                                    "actions": {
+                                        "Cancel_Deprovision": {
+                                            "runAfter": {},
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "body": {
+                                                    "query": "UPDATE assignments\nSET status = 'Deprovision Cancelled'\nWHERE uuid = '@{triggerBody()?['UUID']}';"
+                                                },
+                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                            }
+                                        },
+                                        "DeleteDeprovision": {
+                                            "runAfter": {
+                                                "Cancel_Deprovision": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "post",
+                                                "body": {
+                                                    "query": "DECLARE @AssignmentID INT;\nSELECT @AssignmentID = ID \nFROM Assignments\nWHERE UUID = '@{triggerBody()?['UUID']}';\nDELETE FROM DeprovisionRequests\nWHERE AssignmentID = @AssignmentID;"
+                                                },
+                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                            }
+                                        }
+                                    }
                                 }
+                            },
+                            "default": {
+                                "actions": {}
+                            },
+                            "expression": "@triggerBody()?['Operation']",
+                            "type": "Switch"
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "sql": {
+                                "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/sql",
+                                "connectionId": "[parameters('connections_sql_externalid')]",
+                                "connectionName": "sql"
+                            },
+                            "azurequeues": {
+                                "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
+                                "connectionId": "[parameters('connections_azurequeues_2_externalid')]",
+                                "connectionName": "azurequeues-2"
+                            },
+                            "azurequeues_2": {
+                                "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
+                                "connectionId": "[parameters('connections_azurequeues_externalid')]",
+                                "connectionName": "azurequeues"
+                            },
+                            "azurequeues_3": {
+                                "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
+                                "connectionId": "[parameters('connections_azurequeues_4_externalid')]",
+                                "connectionName": "azurequeues-4"
+                            },
+                            "azurequeues_1": {
+                                "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
+                                "connectionId": "[parameters('connections_azurequeues_5_externalid')]",
+                                "connectionName": "azurequeues-5"
+                            },
+                            "azurequeues_4": {
+                                "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
+                                "connectionId": "[parameters('connections_azurequeues_1_externalid')]",
+                                "connectionName": "azurequeues-1"
                             }
                         }
                     }
                 }
             }
-        ]
-    }
-    
-    }
-  }
+        }
+    ]
+}
