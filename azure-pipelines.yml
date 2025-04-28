@@ -7,7 +7,7 @@ pool:
 variables:
   resourceGroupName: AzureResourceGroup2Test
   logicAppName: Az-Intro-Project-VisualStudio-App
-  location: YOUR_LOCATION  # Example: WestEu
+  location: WestEurope
 
 steps:
 - task: AzureCLI@2
