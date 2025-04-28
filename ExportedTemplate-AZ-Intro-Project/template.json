@@ -1,0 +1,1016 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_SchCallPostApps_name": {
+            "defaultValue": "SchCallPostApps",
+            "type": "String"
+        },
+        "automationAccounts___encodeURIComponent__AutAccount____externalid": {
+            "defaultValue": "/subscriptions/@{encodeURIComponent('41d3de0e-17f5-488a-879e-734c97c01c15')}/resourceGroups/@{encodeURIComponent('AZ-Intro-Project')}/providers/Microsoft.Automation/automationAccounts/@{encodeURIComponent('AutAccount')}",
+            "type": "String"
+        },
+        "connections_azureautomation_1_externalid": {
+            "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AZ-Intro-Project/providers/Microsoft.Web/connections/azureautomation-1",
+            "type": "String"
+        },
+        "connections_azurequeues_externalid": {
+            "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AZ-Intro-Project/providers/Microsoft.Web/connections/azurequeues",
+            "type": "String"
+        },
+        "connections_sql_externalid": {
+            "defaultValue": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AZ-Intro-Project/providers/Microsoft.Web/connections/sql",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_SchCallPostApps_name')]",
+            "location": "westeurope",
+            "identity": {
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "Recurrence": {
+                            "recurrence": {
+                                "interval": 60,
+                                "frequency": "Minute"
+                            },
+                            "evaluatedRecurrence": {
+                                "interval": 60,
+                                "frequency": "Minute"
+                            },
+                            "type": "Recurrence"
+                        }
+                    },
+                    "actions": {
+                        "HTTP_completed": {
+                            "runAfter": {},
+                            "type": "Http",
+                            "inputs": {
+                                "uri": "https://management.azure.com/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AZ-Intro-Project/providers/Microsoft.Automation/automationAccounts/AutAccount/jobs?api-version=2015-10-31&$filter=properties/status%20eq%20'Completed'",
+                                "method": "GET",
+                                "authentication": {
+                                    "type": "ManagedServiceIdentity"
+                                }
+                            },
+                            "runtimeConfiguration": {
+                                "contentTransfer": {
+                                    "transferMode": "Chunked"
+                                }
+                            }
+                        },
+                        "Parse_JSON": {
+                            "runAfter": {
+                                "HTTP_failed": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ParseJson",
+                            "inputs": {
+                                "content": "@body('HTTP_completed')",
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "properties": {
+                                            "type": "object",
+                                            "properties": {
+                                                "value": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "type": {
+                                                            "type": "string"
+                                                        },
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string"
+                                                                },
+                                                                "properties": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "object",
+                                                                            "properties": {
+                                                                                "type": {
+                                                                                    "type": "string"
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "properties": {
+                                                                            "type": "object",
+                                                                            "properties": {
+                                                                                "type": {
+                                                                                    "type": "string"
+                                                                                },
+                                                                                "properties": {
+                                                                                    "type": "object",
+                                                                                    "properties": {
+                                                                                        "jobId": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "runbook": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                },
+                                                                                                "properties": {
+                                                                                                    "type": "object",
+                                                                                                    "properties": {
+                                                                                                        "name": {
+                                                                                                            "type": "object",
+                                                                                                            "properties": {
+                                                                                                                "type": {
+                                                                                                                    "type": "string"
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "provisioningState": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "status": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "creationTime": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "startTime": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "array",
+                                                                                                    "items": {
+                                                                                                        "type": "string"
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "lastModifiedTime": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "endTime": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "array",
+                                                                                                    "items": {
+                                                                                                        "type": "string"
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "jobScheduleId": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "runOn": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "array",
+                                                                                                    "items": {
+                                                                                                        "type": "string"
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                },
+                                                                                "required": {
+                                                                                    "type": "array",
+                                                                                    "items": {
+                                                                                        "type": "string"
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "CompletedJobIds": {
+                            "runAfter": {
+                                "Parse_failed": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "JobIDs",
+                                        "type": "array",
+                                        "value": "@body('Parse_JSON')?['value']"
+                                    }
+                                ]
+                            }
+                        },
+                        "For_each_": {
+                            "foreach": "@variables('JobIdArray')",
+                            "actions": {
+                                "AllJobs": {
+                                    "type": "AppendToArrayVariable",
+                                    "inputs": {
+                                        "name": "JobIDs",
+                                        "value": "@item()?['properties']?['jobId']\r\n"
+                                    }
+                                },
+                                "Get_status_of_job": {
+                                    "runAfter": {
+                                        "AllJobs": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['azureautomation-1']['connectionId']"
+                                            }
+                                        },
+                                        "method": "get",
+                                        "path": "[concat(parameters('automationAccounts___encodeURIComponent__AutAccount____externalid'), '/jobs/@{encodeURIComponent(items(''For_each_'')?[''properties'']?[''jobId''])}')]",
+                                        "queries": {
+                                            "x-ms-api-version": "2015-10-31"
+                                        }
+                                    }
+                                }
+                            },
+                            "runAfter": {
+                                "For_Failed": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Foreach"
+                        },
+                        "Get_messages_(V2)": {
+                            "runAfter": {
+                                "FailedJobIds": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['azurequeues']['connectionId']"
+                                    }
+                                },
+                                "method": "get",
+                                "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('running')}/messages",
+                                "queries": {
+                                    "numofmessages": "10",
+                                    "visibilitytimeout": "10"
+                                }
+                            }
+                        },
+                        "Parse_JSON_1": {
+                            "runAfter": {
+                                "Get_messages_(V2)": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ParseJson",
+                            "inputs": {
+                                "content": "@body('Get_messages_(V2)')",
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "properties": {
+                                            "type": "object",
+                                            "properties": {
+                                                "QueueMessage": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "type": {
+                                                            "type": "string"
+                                                        },
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string"
+                                                                },
+                                                                "properties": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "MessageId": {
+                                                                            "type": "object",
+                                                                            "properties": {
+                                                                                "type": {
+                                                                                    "type": "string"
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "MessageText": {
+                                                                            "type": "object",
+                                                                            "properties": {
+                                                                                "type": {
+                                                                                    "type": "string"
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "For_each_QueueMessages": {
+                            "foreach": "@body('Parse_JSON_1')?['QueueMessagesList']?['QueueMessage']",
+                            "actions": {
+                                "Jobid": {
+                                    "runAfter": {
+                                        "Append_to_vps": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "Compose",
+                                    "inputs": "@trim(last(split(items('For_each_QueueMessages')?['MessageText'], 'JobId:')))\r\n"
+                                },
+                                "Append_to_array_variable": {
+                                    "runAfter": {
+                                        "Jobid": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "AppendToArrayVariable",
+                                    "inputs": {
+                                        "name": "JobIdArray",
+                                        "value": "@outputs('Jobid')"
+                                    }
+                                },
+                                "CUSTOMERNUMBER": {
+                                    "type": "Compose",
+                                    "inputs": "@trim(split(split(items('For_each_QueueMessages')?['MessageText'], '\"CustomerNumber\": ')[1], '-')[0])\r\n\r\n\r\n"
+                                },
+                                "Vps": {
+                                    "runAfter": {
+                                        "Append_to_custnumber": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "Compose",
+                                    "inputs": "@trim(first(split(split(split(items('For_each_QueueMessages')?['MessageText'], '\"CustomerNumber\": ')[1], '-')[1], ',')))\r\n"
+                                },
+                                "Append_to_custnumber": {
+                                    "runAfter": {
+                                        "CUSTOMERNUMBER": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "AppendToArrayVariable",
+                                    "inputs": {
+                                        "name": "CustomerNumber",
+                                        "value": "@outputs('CUSTOMERNUMBER')"
+                                    }
+                                },
+                                "Append_to_vps": {
+                                    "runAfter": {
+                                        "Vps": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "AppendToArrayVariable",
+                                    "inputs": {
+                                        "name": "VpsNo",
+                                        "value": "@outputs('Vps')"
+                                    }
+                                },
+                                "Get_Runbook_Name": {
+                                    "runAfter": {
+                                        "Append_to_array_variable": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "Compose",
+                                    "inputs": "@trim(first(split(last(split(items('For_each_QueueMessages')?['MessageText'], '\"Runbook\": \"')), '\",')))\r\n\r\n"
+                                },
+                                "Condition": {
+                                    "actions": {
+                                        "HTTP_1": {
+                                            "type": "Http",
+                                            "inputs": {
+                                                "uri": "https://prod-123.westeurope.logic.azure.com:443/workflows/e948dc64df874215b00999515bcade4a/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=FQB542pBYOd2owbKulsd8fpuLm8xeZW7awu0mhae87U",
+                                                "method": "POST",
+                                                "body": {
+                                                    "CustomerNumber": "@{outputs('CUSTOMERNUMBER')}",
+                                                    "VPSNumber": "@{outputs('Vps')}",
+                                                    "Runbook": "@{outputs('Get_Runbook_Name')}",
+                                                    "Status": "Success"
+                                                }
+                                            },
+                                            "runtimeConfiguration": {
+                                                "contentTransfer": {
+                                                    "transferMode": "Chunked"
+                                                }
+                                            }
+                                        },
+                                        "Delete_message_(V2)-copy": {
+                                            "runAfter": {
+                                                "HTTP_1": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['azurequeues']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "delete",
+                                                "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('running')}/messages/@{encodeURIComponent(items('For_each_QueueMessages')?['MessageId'])}",
+                                                "queries": {
+                                                    "popreceipt": "@items('For_each_QueueMessages')?['PopReceipt']\r\n"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "runAfter": {
+                                        "Condition_1": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "else": {
+                                        "actions": {}
+                                    },
+                                    "expression": {
+                                        "and": [
+                                            {
+                                                "contains": [
+                                                    "@variables('JobIDs')",
+                                                    "@outputs('Jobid')"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "type": "If"
+                                },
+                                "Condition_failed": {
+                                    "actions": {
+                                        "HTTP": {
+                                            "type": "Http",
+                                            "inputs": {
+                                                "uri": "https://prod-123.westeurope.logic.azure.com:443/workflows/e948dc64df874215b00999515bcade4a/triggers/When_a_HTTP_request_is_received/paths/invoke?api-version=2016-10-01&sp=%2Ftriggers%2FWhen_a_HTTP_request_is_received%2Frun&sv=1.0&sig=FQB542pBYOd2owbKulsd8fpuLm8xeZW7awu0mhae87U",
+                                                "method": "POST",
+                                                "body": {
+                                                    "CustomerNumber": "@{outputs('CUSTOMERNUMBER')}",
+                                                    "VPSNumber": "@{outputs('Vps')}",
+                                                    "Runbook": "@{outputs('Get_Runbook_Name')}",
+                                                    "Status": "Failed"
+                                                }
+                                            },
+                                            "runtimeConfiguration": {
+                                                "contentTransfer": {
+                                                    "transferMode": "Chunked"
+                                                }
+                                            }
+                                        },
+                                        "Delete_message_(V2)": {
+                                            "runAfter": {
+                                                "HTTP": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "type": "ApiConnection",
+                                            "inputs": {
+                                                "host": {
+                                                    "connection": {
+                                                        "name": "@parameters('$connections')['azurequeues']['connectionId']"
+                                                    }
+                                                },
+                                                "method": "delete",
+                                                "path": "/v2/storageAccounts/@{encodeURIComponent(encodeURIComponent('AccountNameFromSettings'))}/queues/@{encodeURIComponent('running')}/messages/@{encodeURIComponent(items('For_each_QueueMessages')?['MessageId'])}",
+                                                "queries": {
+                                                    "popreceipt": "@items('For_each_QueueMessages')?['PopReceipt']\r\n"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "runAfter": {
+                                        "Condition": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "else": {
+                                        "actions": {}
+                                    },
+                                    "expression": {
+                                        "and": [
+                                            {
+                                                "contains": [
+                                                    "@variables('FailedJobIDs')",
+                                                    "@outputs('Jobid')"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "type": "If"
+                                },
+                                "Condition_1": {
+                                    "actions": {
+                                        "Compose_Ram": {
+                                            "type": "Compose",
+                                            "inputs": "@trim(first(split(split(split(items('For_each_QueueMessages')?['MessageText'], '\"RAM\":')[1], '\\n')[0], '}')))\r\n"
+                                        },
+                                        "Switch": {
+                                            "runAfter": {
+                                                "Compose_Ram": [
+                                                    "Succeeded"
+                                                ]
+                                            },
+                                            "cases": {
+                                                "Bronze": {
+                                                    "case": "2",
+                                                    "actions": {
+                                                        "Bronze_Query": {
+                                                            "type": "ApiConnection",
+                                                            "inputs": {
+                                                                "host": {
+                                                                    "connection": {
+                                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                                    }
+                                                                },
+                                                                "method": "post",
+                                                                "body": {
+                                                                    "query": "UPDATE Assignments\nSET VPStype = 1\nWHERE CustomerNumber = @{outputs('CUSTOMERNUMBER')}\n  AND CustomerVPSNo = @{outputs('Vps')};\n"
+                                                                },
+                                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "Silver": {
+                                                    "case": "4",
+                                                    "actions": {
+                                                        "Silver_Query": {
+                                                            "type": "ApiConnection",
+                                                            "inputs": {
+                                                                "host": {
+                                                                    "connection": {
+                                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                                    }
+                                                                },
+                                                                "method": "post",
+                                                                "body": {
+                                                                    "query": "UPDATE Assignments\nSET VPStype = 2\nWHERE CustomerNumber = @{outputs('CUSTOMERNUMBER')}\n  AND CustomerVPSNo = @{outputs('Vps')};"
+                                                                },
+                                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "Gold": {
+                                                    "case": "6",
+                                                    "actions": {
+                                                        "Gold_Query": {
+                                                            "type": "ApiConnection",
+                                                            "inputs": {
+                                                                "host": {
+                                                                    "connection": {
+                                                                        "name": "@parameters('$connections')['sql']['connectionId']"
+                                                                    }
+                                                                },
+                                                                "method": "post",
+                                                                "body": {
+                                                                    "query": "UPDATE Assignments\nSET VPStype = 3\nWHERE CustomerNumber = @{outputs('CUSTOMERNUMBER')}\n  AND CustomerVPSNo = @{outputs('Vps')};"
+                                                                },
+                                                                "path": "/v2/datasets/@{encodeURIComponent(encodeURIComponent('default'))},@{encodeURIComponent(encodeURIComponent('default'))}/query/sql"
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "default": {
+                                                "actions": {}
+                                            },
+                                            "expression": "@outputs('Compose_Ram')",
+                                            "type": "Switch"
+                                        }
+                                    },
+                                    "runAfter": {
+                                        "Get_Runbook_Name": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "else": {
+                                        "actions": {}
+                                    },
+                                    "expression": {
+                                        "and": [
+                                            {
+                                                "equals": [
+                                                    "@outputs('Get_Runbook_Name')",
+                                                    "icm-ny6-vm-resize"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "type": "If"
+                                }
+                            },
+                            "runAfter": {
+                                "VpsNo": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Foreach"
+                        },
+                        "JobIDArray": {
+                            "runAfter": {
+                                "Parse_JSON_1": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "JobIdArray",
+                                        "type": "array",
+                                        "value": "@variables('JobIDs')"
+                                    }
+                                ]
+                            }
+                        },
+                        "CustNumber": {
+                            "runAfter": {
+                                "For_each_": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "CustomerNumber",
+                                        "type": "array",
+                                        "value": "@variables('JobIDs')"
+                                    }
+                                ]
+                            }
+                        },
+                        "VpsNo": {
+                            "runAfter": {
+                                "CustNumber": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "VpsNo",
+                                        "type": "array",
+                                        "value": "@variables('JobIDs')"
+                                    }
+                                ]
+                            }
+                        },
+                        "HTTP_failed": {
+                            "runAfter": {
+                                "HTTP_completed": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Http",
+                            "inputs": {
+                                "uri": "https://management.azure.com/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/resourceGroups/AZ-Intro-Project/providers/Microsoft.Automation/automationAccounts/AutAccount/jobs?api-version=2015-10-31&$filter=properties/status%20eq%20'Failed'",
+                                "method": "GET",
+                                "authentication": {
+                                    "type": "ManagedServiceIdentity"
+                                }
+                            },
+                            "runtimeConfiguration": {
+                                "contentTransfer": {
+                                    "transferMode": "Chunked"
+                                }
+                            }
+                        },
+                        "Parse_failed": {
+                            "runAfter": {
+                                "Parse_JSON": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ParseJson",
+                            "inputs": {
+                                "content": "@body('HTTP_failed')",
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "type": {
+                                            "type": "string"
+                                        },
+                                        "properties": {
+                                            "type": "object",
+                                            "properties": {
+                                                "value": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "type": {
+                                                            "type": "string"
+                                                        },
+                                                        "items": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "type": {
+                                                                    "type": "string"
+                                                                },
+                                                                "properties": {
+                                                                    "type": "object",
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "object",
+                                                                            "properties": {
+                                                                                "type": {
+                                                                                    "type": "string"
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        "properties": {
+                                                                            "type": "object",
+                                                                            "properties": {
+                                                                                "type": {
+                                                                                    "type": "string"
+                                                                                },
+                                                                                "properties": {
+                                                                                    "type": "object",
+                                                                                    "properties": {
+                                                                                        "jobId": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "runbook": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                },
+                                                                                                "properties": {
+                                                                                                    "type": "object",
+                                                                                                    "properties": {
+                                                                                                        "name": {
+                                                                                                            "type": "object",
+                                                                                                            "properties": {
+                                                                                                                "type": {
+                                                                                                                    "type": "string"
+                                                                                                                }
+                                                                                                            }
+                                                                                                        }
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "provisioningState": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "status": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "creationTime": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "startTime": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "array",
+                                                                                                    "items": {
+                                                                                                        "type": "string"
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "lastModifiedTime": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "endTime": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "array",
+                                                                                                    "items": {
+                                                                                                        "type": "string"
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "jobScheduleId": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "string"
+                                                                                                }
+                                                                                            }
+                                                                                        },
+                                                                                        "runOn": {
+                                                                                            "type": "object",
+                                                                                            "properties": {
+                                                                                                "type": {
+                                                                                                    "type": "array",
+                                                                                                    "items": {
+                                                                                                        "type": "string"
+                                                                                                    }
+                                                                                                }
+                                                                                            }
+                                                                                        }
+                                                                                    }
+                                                                                },
+                                                                                "required": {
+                                                                                    "type": "array",
+                                                                                    "items": {
+                                                                                        "type": "string"
+                                                                                    }
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "FailedJobIds": {
+                            "runAfter": {
+                                "CompletedJobIds": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "FailedJobIDs",
+                                        "type": "array",
+                                        "value": "@body('Parse_failed')?['value']"
+                                    }
+                                ]
+                            }
+                        },
+                        "For_Failed": {
+                            "foreach": "@variables('FailedJobIDs')",
+                            "actions": {
+                                "AllJobs-copy": {
+                                    "type": "AppendToArrayVariable",
+                                    "inputs": {
+                                        "name": "JobIDs",
+                                        "value": "@item()?['properties']?['JobID']"
+                                    }
+                                },
+                                "Get_status_of_failed_jobs": {
+                                    "runAfter": {
+                                        "AllJobs-copy": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "ApiConnection",
+                                    "inputs": {
+                                        "host": {
+                                            "connection": {
+                                                "name": "@parameters('$connections')['azureautomation-1']['connectionId']"
+                                            }
+                                        },
+                                        "method": "get",
+                                        "path": "[concat(parameters('automationAccounts___encodeURIComponent__AutAccount____externalid'), '/jobs/@{encodeURIComponent(items(''For_Failed'')?[''properties'']?[''jobid''])}')]",
+                                        "queries": {
+                                            "x-ms-api-version": "2015-10-31"
+                                        }
+                                    }
+                                }
+                            },
+                            "runAfter": {
+                                "JobIDArray": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Foreach"
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "azureautomation-1": {
+                                "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azureautomation",
+                                "connectionId": "[parameters('connections_azureautomation_1_externalid')]",
+                                "connectionName": "azureautomation-1"
+                            },
+                            "azurequeues": {
+                                "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/azurequeues",
+                                "connectionId": "[parameters('connections_azurequeues_externalid')]",
+                                "connectionName": "azurequeues"
+                            },
+                            "sql": {
+                                "id": "/subscriptions/41d3de0e-17f5-488a-879e-734c97c01c15/providers/Microsoft.Web/locations/westeurope/managedApis/sql",
+                                "connectionId": "[parameters('connections_sql_externalid')]",
+                                "connectionName": "sql"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
