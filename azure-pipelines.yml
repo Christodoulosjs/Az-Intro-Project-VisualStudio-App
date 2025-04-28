@@ -1,0 +1,27 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  resourceGroupName: AzureResourceGroup2Test
+  logicAppName: Az-Intro-Project-VisualStudio-App
+  location: WestEurope
+
+steps:
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'AzureServiceConnection'  # your service connection name
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo "Deploying Logic App..."
+      
+      az resource create \
+        --resource-group $(resourceGroupName) \
+        --name $(logicAppName) \
+        --resource-type "Microsoft.Logic/workflows" \
+        --properties @Logicappattempt.json \
+        --location $(location)
+  displayName: 'Deploy Logic App'
