@@ -22,6 +22,6 @@ steps:
         --resource-group $(resourceGroupName) \
         --name $(logicAppName) \
         --resource-type "Microsoft.Logic/workflows" \
-        --properties "Logicappattempt.json" \
+        --properties @Logicappattempt.json \
         --location $(location)
   displayName: 'Deploy Logic App'
